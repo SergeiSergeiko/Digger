@@ -8,13 +8,13 @@ namespace Assets._Digger.Scripts.Game.Preloader.Root
 
         public void Run(AsyncOperation loadingScene)
         {
-            _loadingScreen.Run(loadingScene);
+            StartCoroutine(_loadingScreen.Run(loadingScene));
         }
 
 #if UNITY_EDITOR
         public void SimulationRun(AsyncOperation loadingScene, float loadingTime)
         {
-            _loadingScreen.Run(loadingScene, loadingTime);
+            StartCoroutine(_loadingScreen.Run(loadingScene, loadingTime));
         }
 #endif
     }
