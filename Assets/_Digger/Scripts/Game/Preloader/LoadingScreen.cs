@@ -7,16 +7,21 @@ namespace Assets._Digger.Scripts.Game.Preloader
     public class LoadingScreen : MonoBehaviour
     {
         [SerializeField] private Text _progressText;
+        [SerializeField] private LoadingLogo _loadingLogo;
 
-        public void Run(AsyncOperation loadingScene)
+        public IEnumerator Run(AsyncOperation loadingScene)
         {
-            StartCoroutine(RefreshingProgress(loadingScene));
+            _loadingLogo.Show();
+            yield return StartCoroutine(RefreshingProgress(loadingScene));
+            _loadingLogo.Hide();
         }
 
 #if UNITY_EDITOR
-        public void Run(AsyncOperation loadingScene, float loadingTime)
+        public IEnumerator Run(AsyncOperation loadingScene, float loadingTime)
         {
-            StartCoroutine(SimulationLongLoadingTime(loadingScene, loadingTime));
+            _loadingLogo.Show();
+            yield return StartCoroutine(SimulationLongLoadingTime(loadingScene, loadingTime));
+            _loadingLogo.Hide();
         }
 #endif
 
