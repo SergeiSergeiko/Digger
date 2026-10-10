@@ -10,12 +10,5 @@ namespace Assets._Digger.Scripts.Game.Preloader.Root
         {
             StartCoroutine(_loadingScreen.Run(loadingScene));
         }
-
-#if UNITY_EDITOR
-        public void SimulationRun(AsyncOperation loadingScene, float loadingTime)
-        {
-            StartCoroutine(_loadingScreen.Run(loadingScene, loadingTime));
-        }
-#endif
     }
 }

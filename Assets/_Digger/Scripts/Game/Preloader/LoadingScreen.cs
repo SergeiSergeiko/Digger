@@ -9,21 +9,19 @@ namespace Assets._Digger.Scripts.Game.Preloader
         [SerializeField] private Text _progressText;
         [SerializeField] private LoadingLogo _loadingLogo;
 
+        private float _simulationLoadingTime = 3f;
+
         public IEnumerator Run(AsyncOperation loadingScene)
         {
             _loadingLogo.Show();
-            yield return StartCoroutine(RefreshingProgress(loadingScene));
-            _loadingLogo.Hide();
-        }
 
-#if UNITY_EDITOR
-        public IEnumerator Run(AsyncOperation loadingScene, float loadingTime)
-        {
-            _loadingLogo.Show();
-            yield return StartCoroutine(SimulationLongLoadingTime(loadingScene, loadingTime));
+            if (Application.isEditor)
+                yield return StartCoroutine(SimulationLoading(loadingScene));
+            else
+                yield return StartCoroutine(RefreshingProgress(loadingScene));
+
             _loadingLogo.Hide();
         }
-#endif
 
         private IEnumerator RefreshingProgress(AsyncOperation loadingScene)
         {
@@ -41,11 +39,11 @@ namespace Assets._Digger.Scripts.Game.Preloader
         }
 
 #if UNITY_EDITOR
-        private IEnumerator SimulationLongLoadingTime(AsyncOperation loadingScene, float loadingTime)
+        private IEnumerator SimulationLoading(AsyncOperation loadingScene)
         {
             loadingScene.allowSceneActivation = false;
             int maxCount = 100;
-            WaitForSeconds wait = new WaitForSeconds(loadingTime / maxCount);
+            WaitForSeconds wait = new(_simulationLoadingTime / maxCount);
 
             for (int count = 0; count <= maxCount; count++)
             {

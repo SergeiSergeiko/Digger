@@ -4,8 +4,8 @@ namespace Assets._Digger.Scripts.Game.Preloader
 {
     public class LoadingLogo : MonoBehaviour
     {
-        [SerializeField] Animator _animator;
-        [SerializeField] string _nameBoolParameterActiveLogo;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private string _nameBoolParameterActiveLogo;
 
         public void Show()
         {
