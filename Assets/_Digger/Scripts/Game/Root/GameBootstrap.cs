@@ -1,6 +1,7 @@
 using _Digger.Scripts.Game.Gameplay.Root;
 using Assets._Digger.Scripts.Game.MainMenu.Root;
 using Assets._Digger.Scripts.Game.Root;
+using Assets._Digger.Scripts.Game.Root.DI;
 using System.Collections;
 using UnityEngine;
 
@@ -11,6 +12,7 @@ namespace _Digger.Scripts
         private static GameBootStrap _instance;
         private Coroutines _coroutines;
         private SceneLoader _sceneLoader;
+        private DIContainer _diContainer;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
         public static void AutoStartGame()
@@ -21,10 +23,10 @@ namespace _Digger.Scripts
 
         private GameBootStrap()
         {
+            _diContainer = new DIContainer();
             _sceneLoader = new SceneLoader();
             _coroutines = new GameObject("[COROUTINES]").AddComponent<Coroutines>();
             Object.DontDestroyOnLoad(_coroutines.gameObject);
-
         }
 
         private void RunGame()
@@ -42,10 +44,12 @@ namespace _Digger.Scripts
                 Debug.LogError("gameplayEntryPoint is null");
 
             gameplayEntryPoint.Run();
-            gameplayEntryPoint.GoToMainMenuButtonClicked += () =>
+            void handler()
             {
                 _coroutines.StartCoroutine(LoadAndStartMainMenu());
-            };
+                gameplayEntryPoint.GoToMainMenuButtonClicked -= handler;
+            }
+            gameplayEntryPoint.GoToMainMenuButtonClicked += handler;
         }
 
         private IEnumerator LoadAndStartMainMenu()
@@ -59,10 +63,12 @@ namespace _Digger.Scripts
                 Debug.LogError("mainMenuEntryPoint is null");
 
             mainMenuEntryPoint.Run();
-            mainMenuEntryPoint.GoToGameplayButtonClicked += () =>
+            void handler()
             {
                 _coroutines.StartCoroutine(LoadAndStartGameplay());
-            };
+                mainMenuEntryPoint.GoToGameplayButtonClicked -= handler;
+            }
+            mainMenuEntryPoint.GoToGameplayButtonClicked += handler;
         }
     }
 }

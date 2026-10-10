@@ -1,4 +1,4 @@
-namespace _Digger.Scripts
+namespace Assets._Digger.Scripts.Game.Root
 {
     public static class Scenes
     {
