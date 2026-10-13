@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 namespace Assets._Digger.Scripts.Units.Player
 {
@@ -9,19 +10,48 @@ namespace Assets._Digger.Scripts.Units.Player
         [SerializeField] private float _jumpForce;
         [SerializeField] private Rigidbody2D _rigidbody2D;
 
+        private float _moveDirection;
+        private bool _needMove = false;
+        private bool _needJump = false;
+
         private void Awake()
         {
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
 
-        public void Move(float direction)
+        private void FixedUpdate()
         {
-            _rigidbody2D.linearVelocity = new Vector2(direction * _speed, _rigidbody2D.linearVelocity.y);
+            if (_needMove)
+                Move();
+
+            if (_needJump)
+                Jump();
         }
 
-        public void Jump()
+        public void Move(InputAction.CallbackContext context)
         {
-            _rigidbody2D.AddForceY(_jumpForce, ForceMode2D.Impulse);
+            _moveDirection = context.ReadValue<float>();
+            _needMove = true;
+        }
+
+        public void Jump(InputAction.CallbackContext context)
+        {
+            _needJump = true;
+        }
+
+        private void Move()
+        {
+            _rigidbody2D.linearVelocity =
+                new Vector2(_moveDirection * _speed, _rigidbody2D.linearVelocity.y);
+
+            _needMove = false;
+        }
+
+        private void Jump()
+        {
+            _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+
+            _needJump = false;
         }
     }
 }

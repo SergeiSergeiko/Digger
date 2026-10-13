@@ -181,7 +181,7 @@ SpriteRenderer:
   m_Size: {x: 1.02, y: 0.43}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
-  m_WasSpriteAssigned: 1
+  m_WasSpriteAssigned: 0
   m_SpriteSortPoint: 0
   m_BlendShapeWeights: []
 --- !u!1 &5236073681905637374
@@ -381,7 +381,6 @@ GameObject:
   - component: {fileID: 4852847570971303616}
   - component: {fileID: 6312491365417152440}
   - component: {fileID: 1379711339838468917}
-  - component: {fileID: 3286463474297230108}
   m_Layer: 0
   m_Name: Character
   m_TagString: Untagged
@@ -471,7 +470,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 10.23
+  m_GravityScale: 1
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -497,7 +496,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Assets._Digger.Scripts.Units.Player.Movement
   _speed: 5
   _jumpForce: 6
-  _jumper: {fileID: 3286463474297230108}
+  _rigidbody2D: {fileID: 4852847570971303616}
 --- !u!114 &1379711339838468917
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -510,24 +509,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 25f436e640d199848b0f5b8369c26f0e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Assets._Digger.Scripts.Units.Player.Player
---- !u!114 &3286463474297230108
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7909793723630930838}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5195a021b1650e74c95e825d8d54654e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Assets._Digger.Scripts.Units.Player.Jumper
-  _rigidbody: {fileID: 4852847570971303616}
-  _jumpForce: 12
-  _riseGravity: 1
-  _apexGravity: 0.5
-  _fallGravity: 3
-  _apexThreshold: 1
+  _movement: {fileID: 6312491365417152440}
 --- !u!1 &8884524897615766245
 GameObject:
   m_ObjectHideFlags: 0
