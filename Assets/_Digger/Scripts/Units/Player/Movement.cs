@@ -11,7 +11,6 @@ namespace Assets._Digger.Scripts.Units.Player
         [SerializeField] private Rigidbody2D _rigidbody2D;
 
         private float _moveDirection;
-        private bool _needMove = false;
         private bool _needJump = false;
 
         private void Awake()
@@ -21,17 +20,15 @@ namespace Assets._Digger.Scripts.Units.Player
 
         private void FixedUpdate()
         {
-            if (_needMove)
-                Move();
+            Move();
 
             if (_needJump)
-                Jump();
+                TryJump();
         }
 
         public void Move(InputAction.CallbackContext context)
         {
             _moveDirection = context.ReadValue<float>();
-            _needMove = true;
         }
 
         public void Jump(InputAction.CallbackContext context)
@@ -43,11 +40,9 @@ namespace Assets._Digger.Scripts.Units.Player
         {
             _rigidbody2D.linearVelocity =
                 new Vector2(_moveDirection * _speed, _rigidbody2D.linearVelocity.y);
-
-            _needMove = false;
         }
 
-        private void Jump()
+        private void TryJump()
         {
             _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
 
