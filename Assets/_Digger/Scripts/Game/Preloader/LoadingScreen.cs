@@ -15,9 +15,9 @@ namespace Assets._Digger.Scripts.Game.Preloader
         {
             _loadingLogo.Show();
 
-            if (Application.isEditor)
-                yield return StartCoroutine(SimulationLoading(loadingScene));
-            else
+            //if (Application.isEditor)
+            //    yield return StartCoroutine(SimulationLoading(loadingScene));
+            //else
                 yield return StartCoroutine(RefreshingProgress(loadingScene));
 
             _loadingLogo.Hide();
