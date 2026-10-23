@@ -1,17 +1,26 @@
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 namespace Assets._Digger.Scripts.Units.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
     public class Movement : MonoBehaviour
     {
+        [Header("Move")]
         [SerializeField] private float _speed;
+
+        [Header("Jump")]
         [SerializeField] private float _jumpForce;
+
+        [Space]
         [SerializeField] private Rigidbody2D _rigidbody2D;
+        [SerializeField] private GroundChecker _groundChecker;
 
         private float _moveDirection;
         private bool _needJump = false;
+
+        public bool IsGrounded { get; private set; }
+        public bool IsMoving => _moveDirection != 0;
 
         private void Awake()
         {
@@ -21,19 +30,28 @@ namespace Assets._Digger.Scripts.Units.Player
         private void FixedUpdate()
         {
             Move();
+            IsGrounded = _groundChecker.IsGrounded();
 
-            if (_needJump)
+            if (_needJump && IsGrounded)
                 TryJump();
         }
 
-        public void Move(InputAction.CallbackContext context)
+        public void Move(float moveDirection)
         {
-            _moveDirection = context.ReadValue<float>();
+            _moveDirection = moveDirection;
+            FlipX(moveDirection);
         }
 
-        public void Jump(InputAction.CallbackContext context)
+        public void Jump()
         {
             _needJump = true;
+        }
+
+        public void Stop()
+        {
+            float moveDirection = 0;
+
+            Move(moveDirection);
         }
 
         private void Move()
@@ -47,6 +65,21 @@ namespace Assets._Digger.Scripts.Units.Player
             _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
 
             _needJump = false;
+            IsGrounded = false;
+        }
+
+        private void FlipX(float moveDirection)
+        {
+            Vector3 scale = gameObject.transform.localScale;
+
+            if (moveDirection > 0)
+                scale.x = Math.Abs(scale.x);
+            else
+                if (moveDirection < 0)
+                    if (scale.x > 0)
+                        scale.x *= -1;
+
+            gameObject.transform.localScale = scale;
         }
     }
 }
