@@ -12,7 +12,7 @@ namespace Assets._Digger.Scripts.Units.Player
         [SerializeField] private Animator _animator;
 
         private PlayerInputActions _input;
-        private StateMachine<Player> _stateMachine;
+        private StateMachine<PlayerStates> _stateMachine;
 
         public bool IsGrounded => _movement.IsGrounded;
 
@@ -35,7 +35,7 @@ namespace Assets._Digger.Scripts.Units.Player
 
         private void Start()
         {
-            _stateMachine.SetState<IdleState>();
+            _stateMachine.SetState(PlayerStates.IDLE);
         }
 
         private void Update()
@@ -45,18 +45,18 @@ namespace Assets._Digger.Scripts.Units.Player
 
         private void InitStateMachine()
         {
-            _stateMachine = new StateMachine<Player>();
+            _stateMachine = new StateMachine<PlayerStates>();
             var idleState = new IdleState(_stateMachine, _input, _movement, _animator);
             var moveState = new MoveState(_stateMachine, _input, _movement, _animator);
             var jumpState = new JumpState(_stateMachine, _input, _movement, _animator);
             var attackState = new AttackState(_stateMachine, _movement, _animator);
             var dieState = new DieState(_stateMachine, _input, _animator);
 
-            _stateMachine.AddState(idleState);
-            _stateMachine.AddState(moveState);
-            _stateMachine.AddState(jumpState);
-            _stateMachine.AddState(attackState);
-            _stateMachine.AddState(dieState);
+            _stateMachine.AddState(PlayerStates.IDLE, idleState);
+            _stateMachine.AddState(PlayerStates.MOVE, moveState);
+            _stateMachine.AddState(PlayerStates.JUMP, jumpState);
+            _stateMachine.AddState(PlayerStates.ATTACK, attackState);
+            _stateMachine.AddState(PlayerStates.DIE, dieState);
         }
     }
 }
