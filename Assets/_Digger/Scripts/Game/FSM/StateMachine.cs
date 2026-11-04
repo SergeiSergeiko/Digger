@@ -1,32 +1,34 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 
 namespace Assets._Digger.Scripts.Game.FSM
 {
     public class StateMachine<T>
     {
-        private Dictionary<Type, State> _states = new();
+        private Dictionary<string, State> _states = new();
 
-        public State CurrentState { get; private set; }
+        public string NameCurrentState { get; private set; }
 
-        public void SetState<S>() where S : State
+        private State CurrentState;
+
+        public void SetState(string name)
         {
-            var type = typeof(S);
-
-            if (CurrentState != null && CurrentState?.GetType() == type)
+            if (NameCurrentState == name)
                 return;
 
-            if (_states.TryGetValue(type, out var newState))
+            if (_states.TryGetValue(name, out var state))
             {
                 CurrentState?.Exit();
-                CurrentState = newState;
+
+                NameCurrentState = name;
+                CurrentState = state;
+
                 CurrentState.Enter();
             }
         }
 
-        public void AddState(State state)
+        public void AddState(string name, State state)
         {
-            _states.Add(state.GetType(), state);
+            _states.Add(name, state);
         }
 
         public void Update()
