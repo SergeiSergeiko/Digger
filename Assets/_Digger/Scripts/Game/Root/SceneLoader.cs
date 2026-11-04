@@ -9,7 +9,7 @@ namespace Assets._Digger.Scripts.Game.Root
     {
         public IEnumerator LoadSceneAsync(string name)
         {
-            yield return SceneManager.LoadSceneAsync(Scenes.Preloader, LoadSceneMode.Additive);
+            yield return SceneManager.LoadSceneAsync(Scenes.PRELOADER, LoadSceneMode.Additive);
             SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
 
             var preloaderEntryPoint = Object.FindAnyObjectByType<PreloaderEntryPoint>();
@@ -17,7 +17,7 @@ namespace Assets._Digger.Scripts.Game.Root
             var loadingScene = SceneManager.LoadSceneAsync(name, LoadSceneMode.Additive);
             preloaderEntryPoint.Run(loadingScene);
             yield return loadingScene;
-            yield return SceneManager.UnloadSceneAsync(Scenes.Preloader);
+            yield return SceneManager.UnloadSceneAsync(Scenes.PRELOADER);
         }
     }
 }
