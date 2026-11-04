@@ -1,12 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 namespace Assets._Digger.Scripts.Units
 {
     public class Fliper : MonoBehaviour
     {
-        [SerializeField] private Transform _weaponPos;
+        [SerializeField] private Transform _weapon;
         [SerializeField] private List<SpriteRenderer> _sprites;
 
         private bool _isFliped = false;
@@ -20,7 +19,7 @@ namespace Assets._Digger.Scripts.Units
                     foreach (var sprite in _sprites)
                         sprite.flipX = false;
 
-                    FlipXWeapon();
+                    _isFliped = false;
                 }
             }
 
@@ -31,15 +30,9 @@ namespace Assets._Digger.Scripts.Units
                     foreach (var sprite in _sprites)
                         sprite.flipX = true;
 
-                    FlipXWeapon();
+                    _isFliped = true;
                 }
             }
-        }
-
-        private void FlipXWeapon()
-        {
-            Vector2 newPos = new(_weaponPos.position.x * -1, _weaponPos.position.y);
-            _weaponPos.position = newPos;
         }
     }
 }
