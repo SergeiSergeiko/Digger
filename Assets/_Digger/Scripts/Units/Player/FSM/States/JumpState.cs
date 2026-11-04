@@ -5,40 +5,32 @@ using UnityEngine;
 
 namespace Assets._Digger.Scripts.Units.Player.FSM.States
 {
-    public class JumpState : State
+    public class JumpState : AirState
     {
-        private readonly StateMachine<Player> _fsm;
-        private readonly PlayerInputActions _input;
         private readonly Movement _movement;
+        private readonly StateMachine<PlayerStates> _fsm;
 
-        public JumpState(StateMachine<Player> fsm, PlayerInputActions input, Movement movement,
+        public JumpState(StateMachine<PlayerStates> fsm, PlayerInputActions input, Movement movement,
             Animator animator) 
-            : base(animator)
+            : base(fsm, input, movement, animator)
         {
-            _fsm = fsm;
-            _input = input;
             _movement = movement;
+            _fsm = fsm;
         }
 
         public override void Enter()
         {
             Animator.Play(PlayerAnimationHashes.Jump);
 
-            _movement.Jump();
+            _movement.NeedJump = true;
         }
 
         public override void Update()
         {
-            _movement.Move(_input.Player.Move.ReadValue<float>());
+            base.Update();
 
-            if (_movement.IsMoving && _movement.IsGrounded)
-                _fsm.SetState<MoveState>();
-
-            if (_movement.IsGrounded)
-                _fsm.SetState<IdleState>();
-
-            if (_input.Player.Attack.IsPressed())
-                _fsm.SetState<AttackState>();
+            if (_movement.IsGrounded == false)
+                _fsm.SetState(PlayerStates.AIR);
         }
 
         public override void Exit() { }

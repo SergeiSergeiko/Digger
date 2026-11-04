@@ -5,12 +5,12 @@ using UnityEngine;
 
 namespace Assets._Digger.Scripts.Units.Player.FSM.States
 {
-    public class DieState : State
+    public class DieState : UnitState
     {
         private readonly PlayerInputActions _input;
-        private readonly StateMachine<Player> _fsm;
+        private readonly StateMachine<PlayerStates> _fsm;
 
-        public DieState(StateMachine<Player> fsm, PlayerInputActions input, Animator animator) 
+        public DieState(StateMachine<PlayerStates> fsm, PlayerInputActions input, Animator animator) 
             : base(animator)
         {
             _input = input;
@@ -25,7 +25,7 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
         public override void Update()
         {
             if (_input.Player.Move.IsPressed())
-                _fsm.SetState<MoveState>();
+                _fsm.SetState(PlayerStates.MOVE);
         }
 
         public override void Exit() { }

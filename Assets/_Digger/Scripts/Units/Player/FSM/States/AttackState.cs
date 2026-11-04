@@ -4,15 +4,13 @@ using UnityEngine;
 
 namespace Assets._Digger.Scripts.Units.Player.FSM.States
 {
-    public class AttackState : State
+    public class AttackState : UnitState
     {
-        private readonly StateMachine<Player> _fsm;
-        private readonly Movement _movement;
+        private readonly StateMachine<PlayerStates> _fsm;
 
-        public AttackState(StateMachine<Player> fsm, Movement movement, Animator animator) : base(animator)
+        public AttackState(StateMachine<PlayerStates> fsm, Movement movement, Animator animator) : base(animator)
         {
             _fsm = fsm;
-            _movement = movement;
         }
 
         public override void Enter()
@@ -23,7 +21,7 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
         public override void Update()
         {
             if (Animator.GetCurrentAnimatorStateInfo(0).normalizedTime >= 1f)
-                _fsm.SetState<IdleState>();
+                _fsm.SetState(PlayerStates.IDLE);
         }
 
         public override void Exit() { }
