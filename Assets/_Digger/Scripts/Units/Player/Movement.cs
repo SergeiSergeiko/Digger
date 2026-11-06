@@ -3,7 +3,7 @@ using UnityEngine;
 namespace Assets._Digger.Scripts.Units.Player
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Fliper))]
+    [RequireComponent(typeof(Flipper))]
     public class Movement : MonoBehaviour
     {
         [Header("Move")]
@@ -15,7 +15,7 @@ namespace Assets._Digger.Scripts.Units.Player
         [Space]
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private GroundChecker _groundChecker;
-        [SerializeField] private Fliper _fliper;
+        [SerializeField] private Flipper _fliper;
 
         public bool NeedJump = false;
 
