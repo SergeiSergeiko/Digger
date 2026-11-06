@@ -1,9 +1,6 @@
 ﻿using _Digger.Scripts;
 using Assets._Digger.Scripts.Game.FSM;
-using Assets._Digger.Scripts.Game.Preloader.Root;
 using System.Collections;
-using UnityEngine;
-using UnityEngine.SceneManagement;
 
 namespace Assets._Digger.Scripts.Game.Root.States
 {
@@ -11,10 +8,12 @@ namespace Assets._Digger.Scripts.Game.Root.States
     {
         private Coroutines _coroutines;
         private StateMachine<GameBootStrap> _fsm;
+        private SceneLoader _sceneLoader;
 
-        public PreloaderState(StateMachine<GameBootStrap> fsm, Coroutines coroutines)
+        public PreloaderState(StateMachine<GameBootStrap> fsm, SceneLoader sceneLoader, Coroutines coroutines)
         {
             _fsm = fsm;
+            _sceneLoader = sceneLoader;
             _coroutines = coroutines;
         }
 
@@ -25,21 +24,11 @@ namespace Assets._Digger.Scripts.Game.Root.States
 
         public override void Update() { }
 
-        public override void Exit()
-        {
-            SceneManager.UnloadSceneAsync(Scenes.PRELOADER);
-        }
+        public override void Exit() { }
 
         public IEnumerator LoadSceneAsync()
         {
-            yield return SceneManager.LoadSceneAsync(Scenes.PRELOADER, LoadSceneMode.Additive);
-            SceneManager.UnloadSceneAsync(SceneManager.GetActiveScene());
-
-            var preloaderEntryPoint = Object.FindAnyObjectByType<PreloaderEntryPoint>();
-
-            var loadingScene = SceneManager.LoadSceneAsync(TargetScene.NAME, LoadSceneMode.Additive);
-            preloaderEntryPoint.Run(loadingScene);
-            yield return loadingScene;
+            yield return _sceneLoader.LoadSceneAsync(TargetScene.NAME);
 
             _fsm.SetState(TargetScene.NAME);
         }
