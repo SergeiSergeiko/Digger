@@ -1,16 +1,20 @@
 using Assets._Digger.Scripts.Units.Player;
 using UnityEngine;
 
-namespace _Digger.Scripts.Game.Gameplay
+namespace Assets._Digger.Scripts.Spawners
 {
     public class SpawnerPlayer : MonoBehaviour
     {
-        [SerializeField] private Player Player;
-        [SerializeField] private GameObject SpawnPoint;
+        [SerializeField] private Player _player;
 
-        public Player Spawn()
+        public void Spawn(Player player, Vector3 pos)
         {
-            return Instantiate(Player, SpawnPoint.transform.position, Quaternion.identity);
+            player.transform.position = pos;
+        }
+
+        public Player CreatePlayer()
+        {
+            return Instantiate(_player);
         }
     }
 }
