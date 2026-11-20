@@ -1,5 +1,4 @@
-﻿using _Digger.Scripts;
-using Assets._Digger.Scripts.Game.FSM;
+﻿using Assets._Digger.Scripts.Game.FSM;
 using Assets._Digger.Scripts.Game.MainMenu.Root;
 using UnityEngine;
 

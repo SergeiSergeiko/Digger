@@ -5,27 +5,25 @@ namespace Assets._Digger.Scripts.Units.Player
     public class GroundChecker : MonoBehaviour
     {
         [SerializeField] private Transform _groundCheck;
-        [SerializeField] private float _groundCheckRadius = 0.15f;
+        [SerializeField] private LayerMask _mask;
+        [SerializeField] private float _distance = 0.15f;
+
+        private RaycastHit2D hit;
 
         public bool IsGrounded()
         {
-            Collider2D[] colliders =
-                Physics2D.OverlapCircleAll(_groundCheck.position, _groundCheckRadius);
+            hit =  Physics2D.Raycast(_groundCheck.position, Vector2.down, _distance, _mask);
 
-            foreach (var collider in colliders)
-                if (collider.TryGetComponent(out Ground _) == true)
-                    return true;
-
-            return false;
+            return hit;
         }
 
         private void OnDrawGizmosSelected()
         {
             if (_groundCheck == null)
                 return;
-            
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
+
+            Debug.DrawRay(
+                _groundCheck.position, Vector2.down * _distance, hit ? Color.green : Color.red);
         }
     }
 }

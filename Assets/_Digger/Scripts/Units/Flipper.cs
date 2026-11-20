@@ -6,26 +6,22 @@ namespace Assets._Digger.Scripts.Units
     {
         [SerializeField] private Transform _owner;
 
-        private bool _isFliped = false;
-        private float _flipValue = 180;
+        private float _flipValue = 180f;
 
         public void FlipX(float direction)
         {
             if (direction > 0)
             {
-                if (_isFliped)
+                if (_owner.rotation.y > 0)
                 {
                     SetQuaternionOwnerY(0);
-                    _isFliped = false;
                 }
             }
-
-            if (direction < 0)
+            else if (direction < 0) 
             {
-                if (_isFliped == false)
+                if (_owner.rotation.y < _flipValue)
                 {
                     SetQuaternionOwnerY(_flipValue);
-                    _isFliped = true;
                 }
             }
         }

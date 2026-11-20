@@ -1,6 +1,5 @@
-﻿using _Digger.Scripts;
-using _Digger.Scripts.Game.Gameplay.Root;
-using Assets._Digger.Scripts.Game.FSM;
+﻿using Assets._Digger.Scripts.Game.FSM;
+using Assets._Digger.Scripts.Game.Gameplay.Root;
 using UnityEngine;
 
 namespace Assets._Digger.Scripts.Game.Root.States

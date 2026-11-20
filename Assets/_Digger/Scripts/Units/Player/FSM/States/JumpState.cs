@@ -7,29 +7,31 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
 {
     public class JumpState : AirState
     {
-        private readonly Movement _movement;
+        private readonly Jumper _jumper;
         private readonly StateMachine<PlayerStates> _fsm;
+        private readonly GroundChecker _groundChecker;
 
-        public JumpState(StateMachine<PlayerStates> fsm, PlayerInputActions input, Movement movement,
-            Animator animator) 
-            : base(fsm, input, movement, animator)
+        public JumpState(StateMachine<PlayerStates> fsm, PlayerInputActions input, GroundChecker groundChecker,
+            Movement movement, Jumper jumper, Animator animator) 
+            : base(fsm, input, groundChecker, movement, animator)
         {
-            _movement = movement;
+            _jumper = jumper;
             _fsm = fsm;
+            _groundChecker = groundChecker;
         }
 
         public override void Enter()
         {
             Animator.Play(PlayerAnimationHashes.Jump);
 
-            _movement.NeedJump = true;
+            _jumper.NeedJump = true;
         }
 
         public override void Update()
         {
             base.Update();
 
-            if (_movement.IsGrounded == false)
+            if (_groundChecker.IsGrounded() == false)
                 _fsm.SetState(PlayerStates.AIR);
         }
 

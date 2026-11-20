@@ -8,7 +8,7 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
     {
         private readonly StateMachine<PlayerStates> _fsm;
 
-        public AttackState(StateMachine<PlayerStates> fsm, Movement movement, Animator animator) : base(animator)
+        public AttackState(StateMachine<PlayerStates> fsm, Animator animator) : base(animator)
         {
             _fsm = fsm;
         }

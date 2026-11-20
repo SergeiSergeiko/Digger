@@ -1,5 +1,4 @@
-﻿using _Digger.Scripts;
-using Assets._Digger.Scripts.Game.FSM;
+﻿using Assets._Digger.Scripts.Game.FSM;
 using System.Collections;
 
 namespace Assets._Digger.Scripts.Game.Root.States

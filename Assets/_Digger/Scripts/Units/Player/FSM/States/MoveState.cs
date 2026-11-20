@@ -10,14 +10,18 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
         private readonly StateMachine<PlayerStates> _fsm;
         private readonly PlayerInputActions _input;
         private readonly Movement _movement;
+        private readonly GroundChecker _groundChecker;
 
-        public MoveState(StateMachine<PlayerStates> fsm, PlayerInputActions input, Movement movement,
-            Animator animator)
+        private bool _isGrounded;
+
+        public MoveState(StateMachine<PlayerStates> fsm, PlayerInputActions input, GroundChecker groundChecker,
+            Movement movement, Animator animator)
             : base(animator)
         {
             _fsm = fsm;
             _input = input;
             _movement = movement;
+            _groundChecker = groundChecker;
         }
 
         public override void Enter()
@@ -28,14 +32,15 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
         public override void Update()
         {
             _movement.Move(_input.Player.Move.ReadValue<float>());
+            _isGrounded = _groundChecker.IsGrounded();
 
             if (_movement.IsMoving == false)
                 _fsm.SetState(PlayerStates.IDLE);
 
-            if (_input.Player.Jump.IsPressed() && _movement.IsGrounded)
+            if (_input.Player.Jump.IsPressed() && _isGrounded)
                 _fsm.SetState(PlayerStates.JUMP);
 
-            if (_movement.IsGrounded == false)
+            if (_isGrounded == false)
                 _fsm.SetState(PlayerStates.AIR);
 
             if (_input.Player.Attack.IsPressed())

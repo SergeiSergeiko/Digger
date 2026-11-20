@@ -6,31 +6,24 @@ namespace Assets._Digger.Scripts.Units.Player
     [RequireComponent(typeof(Flipper))]
     public class Movement : MonoBehaviour
     {
-        [Header("Move")]
-        [SerializeField] private float _speed;
+        [HideInInspector] public float Speed;
 
-        [Header("Jump")]
-        [SerializeField] private float _jumpForce;
-
-        [Space]
         [SerializeField] private Rigidbody2D _rigidbody2D;
-        [SerializeField] private GroundChecker _groundChecker;
         [SerializeField] private Flipper _fliper;
-
-        public bool NeedJump = false;
 
         private float _moveDirection;
 
-        public bool IsGrounded { get; private set; }
         public bool IsMoving => _moveDirection != 0;
 
         private void FixedUpdate()
         {
             Move();
-            IsGrounded = _groundChecker.IsGrounded();
+        }
 
-            if (NeedJump && IsGrounded)
-                Jump();
+        public void ResetState()
+        {
+            _rigidbody2D.linearVelocity = Vector2.zero;
+            _rigidbody2D.angularVelocity = 0f;
         }
 
         public void Move(float moveDirection)
@@ -49,14 +42,7 @@ namespace Assets._Digger.Scripts.Units.Player
         private void Move()
         {
             _rigidbody2D.linearVelocity =
-                new Vector2(_moveDirection * _speed, _rigidbody2D.linearVelocity.y);
-        }
-
-        private void Jump()
-        {
-            _rigidbody2D.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-
-            NeedJump = false;
+                new Vector2(_moveDirection * Speed, _rigidbody2D.linearVelocity.y);
         }
     }
 }

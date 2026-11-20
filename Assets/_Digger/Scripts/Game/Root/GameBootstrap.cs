@@ -1,15 +1,16 @@
 using Assets._Digger.Scripts.Game.FSM;
-using Assets._Digger.Scripts.Game.Root;
 using Assets._Digger.Scripts.Game.Root.States;
 using UnityEngine;
 
-namespace _Digger.Scripts
+namespace Assets._Digger.Scripts.Game.Root
 {
     public class GameBootStrap
     {
         private static GameBootStrap _instance;
-        private Coroutines _coroutines;
-        private SceneLoader _sceneLoader;
+
+        private readonly Coroutines _coroutines;
+        private readonly SceneLoader _sceneLoader;
+
         private StateMachine<GameBootStrap> _fsm;
 
         [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]

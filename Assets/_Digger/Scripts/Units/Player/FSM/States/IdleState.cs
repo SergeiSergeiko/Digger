@@ -9,15 +9,19 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
     {
         private readonly StateMachine<PlayerStates> _fsm;
         private readonly PlayerInputActions _input;
-        private readonly Movement _movement;
+        private readonly Player _player;
+        private readonly GroundChecker _groundChecker;
 
-        public IdleState(StateMachine<PlayerStates> fsm, PlayerInputActions input, Movement movement,
-            Animator animator)
+        private bool _isGrounded;
+
+        public IdleState(StateMachine<PlayerStates> fsm, PlayerInputActions input, GroundChecker groundChecker,
+            Player player, Animator animator)
             : base(animator)
         {
             _fsm = fsm;
             _input = input;
-            _movement = movement;
+            _player = player;
+            _groundChecker = groundChecker;
         }
 
         public override void Enter()
@@ -27,23 +31,25 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
 
         public override void Update()
         {
+            _isGrounded = _groundChecker.IsGrounded();
+            
             if (_input.Player.Move.IsPressed())
                 _fsm.SetState(PlayerStates.MOVE);
 
-            if (_movement.IsGrounded == false)
+            if (_isGrounded == false)
                 _fsm.SetState(PlayerStates.AIR);
 
-            if (_input.Player.Jump.IsPressed() && _movement.IsGrounded)
+            if (_input.Player.Jump.WasPressedThisFrame() && _isGrounded)
                 _fsm.SetState(PlayerStates.JUMP);
 
-            if (_movement.IsGrounded == false)
+            if (_isGrounded == false)
                 _fsm.SetState(PlayerStates.AIR);
 
             if (_input.Player.Attack.IsPressed())
                 _fsm.SetState(PlayerStates.ATTACK);
 
-            if (_input.Player.Die.IsPressed())
-                _fsm.SetState(PlayerStates.DIE);
+            if (_input.Player.GetDamage.WasPressedThisFrame())
+                _player.GetDamage(1);
         }
 
         public override void Exit() { }
