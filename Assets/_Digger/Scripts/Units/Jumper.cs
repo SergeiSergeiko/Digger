@@ -22,7 +22,7 @@ namespace Assets._Digger.Scripts.Units
 
         private void Update()
         {
-            if (_groundChecker.IsGrounded())
+            if (_currentNumberJump < NumberDoubleJump && _groundChecker.IsGrounded())
                 RechargeJumps();
         }
 
