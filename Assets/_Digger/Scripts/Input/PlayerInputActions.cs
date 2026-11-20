@@ -122,7 +122,7 @@ namespace Assets._Digger.Scripts.Input
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Die"",
+                    ""name"": ""GetDamage"",
                     ""type"": ""Button"",
                     ""id"": ""4c6abc8a-bf5a-497b-b088-e1488efa3fa1"",
                     ""expectedControlType"": """",
@@ -183,7 +183,7 @@ namespace Assets._Digger.Scripts.Input
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Die"",
+                    ""action"": ""GetDamage"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -258,7 +258,7 @@ namespace Assets._Digger.Scripts.Input
             m_Player_Move = m_Player.FindAction("Move", throwIfNotFound: true);
             m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
             m_Player_Attack = m_Player.FindAction("Attack", throwIfNotFound: true);
-            m_Player_Die = m_Player.FindAction("Die", throwIfNotFound: true);
+            m_Player_GetDamage = m_Player.FindAction("GetDamage", throwIfNotFound: true);
         }
 
         ~@PlayerInputActions()
@@ -342,7 +342,7 @@ namespace Assets._Digger.Scripts.Input
         private readonly InputAction m_Player_Move;
         private readonly InputAction m_Player_Jump;
         private readonly InputAction m_Player_Attack;
-        private readonly InputAction m_Player_Die;
+        private readonly InputAction m_Player_GetDamage;
         /// <summary>
         /// Provides access to input actions defined in input action map "Player".
         /// </summary>
@@ -367,9 +367,9 @@ namespace Assets._Digger.Scripts.Input
             /// </summary>
             public InputAction @Attack => m_Wrapper.m_Player_Attack;
             /// <summary>
-            /// Provides access to the underlying input action "Player/Die".
+            /// Provides access to the underlying input action "Player/GetDamage".
             /// </summary>
-            public InputAction @Die => m_Wrapper.m_Player_Die;
+            public InputAction @GetDamage => m_Wrapper.m_Player_GetDamage;
             /// <summary>
             /// Provides access to the underlying input action map instance.
             /// </summary>
@@ -405,9 +405,9 @@ namespace Assets._Digger.Scripts.Input
                 @Attack.started += instance.OnAttack;
                 @Attack.performed += instance.OnAttack;
                 @Attack.canceled += instance.OnAttack;
-                @Die.started += instance.OnDie;
-                @Die.performed += instance.OnDie;
-                @Die.canceled += instance.OnDie;
+                @GetDamage.started += instance.OnGetDamage;
+                @GetDamage.performed += instance.OnGetDamage;
+                @GetDamage.canceled += instance.OnGetDamage;
             }
 
             /// <summary>
@@ -428,9 +428,9 @@ namespace Assets._Digger.Scripts.Input
                 @Attack.started -= instance.OnAttack;
                 @Attack.performed -= instance.OnAttack;
                 @Attack.canceled -= instance.OnAttack;
-                @Die.started -= instance.OnDie;
-                @Die.performed -= instance.OnDie;
-                @Die.canceled -= instance.OnDie;
+                @GetDamage.started -= instance.OnGetDamage;
+                @GetDamage.performed -= instance.OnGetDamage;
+                @GetDamage.canceled -= instance.OnGetDamage;
             }
 
             /// <summary>
@@ -558,12 +558,12 @@ namespace Assets._Digger.Scripts.Input
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
             void OnAttack(InputAction.CallbackContext context);
             /// <summary>
-            /// Method invoked when associated input action "Die" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+            /// Method invoked when associated input action "GetDamage" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
             /// </summary>
             /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
             /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-            void OnDie(InputAction.CallbackContext context);
+            void OnGetDamage(InputAction.CallbackContext context);
         }
     }
 }
