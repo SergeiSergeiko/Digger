@@ -1,4 +1,4 @@
-﻿using Assets._Digger.Scripts.Units.Player;
+﻿using Assets._Digger.Scripts.Units;
 using UnityEngine;
 
 namespace Assets._Digger.Scripts.Objects
@@ -7,8 +7,8 @@ namespace Assets._Digger.Scripts.Objects
     {
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponent(out Player player))
-                player.GetDamage(int.MaxValue);
+            if (collision.TryGetComponent(out IDamageable unit))
+                unit.TakeDamage(int.MaxValue);
         }
     }
 }
