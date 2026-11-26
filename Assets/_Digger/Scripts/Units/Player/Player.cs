@@ -6,7 +6,7 @@ using UnityEngine;
 namespace Assets._Digger.Scripts.Units.Player
 {
     [RequireComponent(typeof(Movement))]
-    public class Player : MonoBehaviour
+    public class Player : MonoBehaviour, IDamageable
     {
         [SerializeField] private Movement _movement;
         [SerializeField] private GroundChecker _groundChecker;
@@ -46,9 +46,9 @@ namespace Assets._Digger.Scripts.Units.Player
             _fsm.Update();
         }
 
-        public void GetDamage(int damage)
+        public void TakeDamage(int damage)
         {
-            _health.Set(_health.Value - damage);
+            _health.HealthValue = _health.HealthValue - damage;
         }
 
         public void ResetState()
@@ -88,7 +88,7 @@ namespace Assets._Digger.Scripts.Units.Player
             _health = new Health(_config.MaxHealth);
             _movement.Speed = _config.MoveSpeed;
             _jumper.JumpForce = _config.JumpForce;
-            _jumper.NumberDoubleJump = _config.NumberDoubleJump;
+            _jumper.CountMultiJump = _config.NumberDoubleJump;
         }
     }
 }

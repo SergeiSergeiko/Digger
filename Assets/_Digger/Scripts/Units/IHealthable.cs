@@ -7,8 +7,8 @@ namespace Assets._Digger.Scripts.Units
         event Action<int> Changed;
         event Action Died;
 
-        int Min { get; }
-        int Max { get; }
-        int Value { get; }
+        int MinHealthValue { get; }
+        int MaxHealthValue { get; }
+        int HealthValue { get; }
     }
 }
