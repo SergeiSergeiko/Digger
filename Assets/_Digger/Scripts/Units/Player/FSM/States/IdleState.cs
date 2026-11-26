@@ -49,7 +49,7 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
                 _fsm.SetState(PlayerStates.ATTACK);
 
             if (_input.Player.GetDamage.WasPressedThisFrame())
-                _player.GetDamage(1);
+                _player.TakeDamage(1);
         }
 
         public override void Exit() { }

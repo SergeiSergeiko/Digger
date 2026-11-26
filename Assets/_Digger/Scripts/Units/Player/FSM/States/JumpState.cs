@@ -24,7 +24,7 @@ namespace Assets._Digger.Scripts.Units.Player.FSM.States
         {
             Animator.Play(PlayerAnimationHashes.Jump);
 
-            _jumper.NeedJump = true;
+            _jumper.Jump();
         }
 
         public override void Update()

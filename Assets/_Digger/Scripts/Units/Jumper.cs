@@ -1,4 +1,5 @@
 ﻿using Assets._Digger.Scripts.Units.Player;
+using System.Collections;
 using UnityEngine;
 
 namespace Assets._Digger.Scripts.Units
@@ -6,45 +7,53 @@ namespace Assets._Digger.Scripts.Units
     public class Jumper : MonoBehaviour
     {
         [HideInInspector] public float JumpForce;
-        [HideInInspector] public int NumberDoubleJump;
+        [HideInInspector] public int CountMultiJump;
 
         [SerializeField] private Rigidbody2D _rigidbody2D;
         [SerializeField] private GroundChecker _groundChecker;
 
-        public bool NeedJump { get; set; } = false;
-
-        private int _currentNumberJump;
+        private Coroutine _coroutineResettingJumps;
+        private int _currentCountJump;
 
         private void Start()
         {
-            RechargeJumps();
+            ResetJumpCount();
         }
 
-        private void Update()
+        public void Jump()
         {
-            if (_currentNumberJump < NumberDoubleJump && _groundChecker.IsGrounded())
-                RechargeJumps();
-        }
+            if (CanJump() == false)
+                return;
 
-        private void FixedUpdate()
-        {
-            if (NeedJump && _currentNumberJump > 0)
-                Jump();
-        }
-
-        private void Jump()
-        {
             _rigidbody2D.linearVelocityY = 0f;
-
             _rigidbody2D.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
 
-            NeedJump = false;
-            _currentNumberJump--;
+            _currentCountJump--;
+            StartResettingJumpsCount();
         }
 
-        private void RechargeJumps()
+        private void StartResettingJumpsCount()
         {
-            _currentNumberJump = NumberDoubleJump;
+            _coroutineResettingJumps ??= StartCoroutine(ResettingJumpsCount());
         }
+
+        private IEnumerator ResettingJumpsCount()
+        {
+            bool isGrounded = false;
+
+            while (isGrounded)
+            {
+                isGrounded = _groundChecker.IsGrounded();
+
+                yield return null;
+            }
+
+            ResetJumpCount();
+            _coroutineResettingJumps = null;
+        }
+
+        private void ResetJumpCount() => _currentCountJump = CountMultiJump;
+
+        private bool CanJump() => _groundChecker.IsGrounded() && _currentCountJump > 0;
     }
 }

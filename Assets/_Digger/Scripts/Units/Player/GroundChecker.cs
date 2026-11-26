@@ -12,9 +12,7 @@ namespace Assets._Digger.Scripts.Units.Player
 
         public bool IsGrounded()
         {
-            hit =  Physics2D.Raycast(_groundCheck.position, Vector2.down, _distance, _mask);
-
-            return hit;
+            return hit =  Physics2D.Raycast(_groundCheck.position, Vector2.down, _distance, _mask);
         }
 
         private void OnDrawGizmosSelected()
