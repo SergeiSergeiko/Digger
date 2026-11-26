@@ -9,7 +9,7 @@ namespace Assets._Digger.Scripts.Game.Gameplay.UI
 
         public void InitHealthBar(IHealthable health)
         {
-            _healthBar.AttachHealth(health);
+            _healthBar.InitHealth(health);
         }
     }
 }

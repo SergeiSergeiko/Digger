@@ -15,16 +15,14 @@ namespace Assets._Digger.Scripts.Game.Gameplay.UI
             _health.Changed -= OnHealthChanged;
         }
 
-        public void AttachHealth(IHealthable health)
+        public void InitHealth(IHealthable health)
         {
             if (_health != null)
                 _health.Changed -= OnHealthChanged;
 
             _health = health;
 
-            _slider.minValue = _health.Min;
-            _slider.maxValue = _health.Max;
-            _slider.value = _health.Value;
+            InitSlider();
 
             _health.Changed += OnHealthChanged;
         }
@@ -32,6 +30,13 @@ namespace Assets._Digger.Scripts.Game.Gameplay.UI
         private void OnHealthChanged(int value)
         {
             _slider.value = value;
+        }
+
+        private void InitSlider()
+        {
+            _slider.minValue = _health.MinHealthValue;
+            _slider.maxValue = _health.MaxHealthValue;
+            _slider.value = _health.HealthValue;
         }
     }
 }
